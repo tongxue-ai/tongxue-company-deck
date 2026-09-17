@@ -251,6 +251,62 @@
 
   #hint{position:absolute;bottom:54px;left:50%;transform:translateX(-50%);font-size:12px;
     color:rgba(255,255,255,.6);z-index:60;letter-spacing:.05em;transition:opacity 1s;}
+@media (max-width: 768px) {
+  html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background: #0b1622;
+  }
+
+  #stage {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .slide {
+    width: 92vw !important;
+    max-width: 430px !important;
+    aspect-ratio: 9 / 16 !important;
+    height: auto !important;
+    margin: 0 auto !important;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  img, .logo-img {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block;
+  }
+
+  .logo-img {
+    width: 22vw !important;
+    max-width: 110px !important;
+    height: auto !important;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: clamp(24px, 5.8vw, 38px) !important;
+    line-height: 1.25 !important;
+    margin: 0 0 12px;
+  }
+
+  .sub, .meta, p {
+    font-size: clamp(13px, 3.2vw, 17px) !important;
+    line-height: 1.45 !important;
+  }
+
+  #progress, .hint, .cta, button, .nav, .arrows, [class*="arrow"] {
+    touch-action: manipulation;
+  }
+}
 </style>
 </head>
 <body>
