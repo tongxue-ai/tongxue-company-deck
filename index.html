@@ -256,7 +256,45 @@
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-    background: #0b1622;
+    background: #050d12;
+    touch-action: pan-y;
+  }
+  body { overflow: hidden; }
+  #stage {
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    transform: none !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden !important;
+    background: #050d12;
+
+    .slide {
+    width: 92vw !important;
+    height: auto !important;
+    aspect-ratio: 9 / 16 !important;
+    max-height: 94vh !important;
+    margin: 0 auto !important;
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  }
+
+  .prev, .next, button.prev, button.next {
+    z-index: 50;
+    font-size: 28px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+  }
   }
 
   #stage {
@@ -642,12 +680,16 @@
   function next(){ go(cur+1); }
   function prev(){ go(cur-1); }
 
-  function fit(){
-    const s = Math.min(window.innerWidth/1280, window.innerHeight/720);
-    stage.style.transform = 'scale(' + s + ')';
+function fit(){
+  if (window.innerWidth <= 768) {
+    stage.style.transform = 'none';
+    return;
   }
-  window.addEventListener('resize', fit);
-  fit();
+  const s = Math.min(window.innerWidth/1280, window.innerHeight/720);
+  stage.style.transform = 'scale(' + s + ')';
+}
+window.addEventListener('resize', fit);
+fit();
 
   let numBuf = '', numTimer = null;
   document.addEventListener('keydown', function(e){
@@ -683,5 +725,28 @@
   render();
 })();
 </script>
+  (function(){
+  let startX = null;
+  document.addEventListener('touchstart', function(e){
+    startX = e.touches[0].clientX;
+  }, {passive:true});
+
+  document.addEventListener('touchend', function(e){
+    if (startX === null) return;
+    const dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 40) {
+      if (dx < 0) next();
+      else prev();
+    }
+    startX = null;
+  }, {passive:true});
+
+  document.querySelectorAll('.prev, button.prev').forEach(function(el){
+    el.onclick = function(){ prev(); };
+  });
+  document.querySelectorAll('.next, button.next').forEach(function(el){
+    el.onclick = function(){ next(); };
+  });
+})();
 </body>
 </html>
